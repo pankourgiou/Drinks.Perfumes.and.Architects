@@ -1,7 +1,84 @@
-import random
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Futuristic Architect Companion 🌆✨</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
-# 50 Famous Architects and Their Iconic Buildings
-architects = {
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    color: #00fff7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+  }
+
+  .container {
+    background: rgba(0,0,0,0.6);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #00fff7;
+    width: 90%;
+    max-width: 600px;
+  }
+
+  select, button {
+    margin: 10px 0;
+    padding: 12px;
+    width: 80%;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 2px solid #00fff7;
+    background: rgba(0,0,0,0.8);
+    color: #00fff7;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #00fff7;
+    color: #0f0c29;
+    box-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
+  }
+
+  #result {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #00fff7 inset;
+  }
+</style>
+</head>
+<body>
+
+<h1>🏛️ Architect & Lifestyle Companion 🌆</h1>
+<div class="container">
+  <label for="architect">Choose your favorite architect:</label><br>
+  <select id="architect">
+    <option value="">--Select Architect--</option>
+  </select>
+  <button onclick="pickLifestyle()">Get Your Cocktail & Perfume 🎨🍸💐</button>
+
+  <div id="result">Your personalized suggestions will appear here...</div>
+</div>
+
+<script>
+const architects = {
     "Frank Lloyd Wright": "Fallingwater",
     "Le Corbusier": "Villa Savoye",
     "Zaha Hadid": "Heydar Aliyev Center",
@@ -52,50 +129,63 @@ architects = {
     "Giancarlo De Carlo": "University College, Urbino",
     "Michael Graves": "Portland Building",
     "Rafael Moneo": "Cathedral of Our Lady of the Angels"
-}
+};
 
-cocktails = [
+const cocktails = [
     "Margarita", "Old Fashioned", "Negroni", "Cosmopolitan", "Mojito",
     "Whiskey Sour", "Mai Tai", "Bloody Mary", "Daiquiri", "Gin & Tonic",
     "Pina Colada", "Espresso Martini", "Long Island Iced Tea", "Caipirinha",
     "Aperol Spritz", "Tom Collins", "Paloma", "Manhattan", "Tequila Sunrise",
     "Rum Punch"
-]
+];
 
-perfumes = [
+const perfumes = [
     "Chanel No.5", "Dior Sauvage", "Gucci Bloom", "YSL Black Opium",
     "Tom Ford Oud Wood", "Jo Malone Peony & Blush Suede", "Bleu de Chanel",
     "Armani Code", "Le Labo Santal 33", "Viktor & Rolf Flowerbomb",
     "Versace Eros", "Dolce & Gabbana Light Blue", "Byredo Gypsy Water",
     "Maison Margiela Replica 'Jazz Club'", "Prada L'Homme"
-]
+];
 
-# Funny commentary templates
-commentary = [
+const commentary = [
     "Ah, a refined taste! Clearly, you sketch in 3D while sipping design philosophy.",
     "You must dream in concrete and glass. Time to celebrate your genius!",
     "A bold choice — like your taste in cocktails and fragrances.",
     "Your inner architect just did a mic drop.",
     "You clearly enjoy your buildings with a side of drama and elegance!"
-]
+];
 
-# Display the list of architects
-print("🏛️  Famous Architects and Their Iconic Buildings 🏗️\n")
-for i, (architect, building) in enumerate(architects.items(), 1):
-    print(f"{i}. {architect} — {building}")
+// Populate the dropdown
+const select = document.getElementById('architect');
+for (const name in architects) {
+    const option = document.createElement('option');
+    option.value = name;
+    option.textContent = name;
+    select.appendChild(option);
+}
 
-# User input
-choice = input("\nEnter the name of your favorite architect: ").strip()
+function pickLifestyle() {
+    const architect = select.value;
+    const resultDiv = document.getElementById('result');
 
-# Process the choice
-if choice in architects:
-    cocktail = random.choice(cocktails)
-    perfume = random.choice(perfumes)
-    reaction = random.choice(commentary)
-    print(f"\n🎨 {reaction}")
-    print(f"You picked {choice}, known for the {architects[choice]}.")
-    print(f"\n🍸 Your cocktail of the day: {cocktail}")
-    print(f"💐 Your matching perfume: {perfume}")
-    print("\nNow go design something magnificent — but maybe after that drink! 😉")
-else:
-    print("\nHmm, that name isn't on the list. Maybe you’re an avant-garde visionary? 🍹")
+    if (!architect) {
+        resultDiv.innerHTML = "❌ Please select an architect first!";
+        return;
+    }
+
+    const building = architects[architect];
+    const cocktail = cocktails[Math.floor(Math.random() * cocktails.length)];
+    const perfume = perfumes[Math.floor(Math.random() * perfumes.length)];
+    const comment = commentary[Math.floor(Math.random() * commentary.length)];
+
+    resultDiv.innerHTML = `
+        🎨 ${comment}<br><br>
+        🏛️ <strong>${architect}</strong> — ${building}<br>
+        🍸 Cocktail of the day: <strong>${cocktail}</strong><br>
+        💐 Matching perfume: <strong>${perfume}</strong>
+    `;
+}
+</script>
+
+</body>
+</html>
